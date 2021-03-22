@@ -7,4 +7,3 @@ func _input(event):
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			var tower = Tower.instance()
 			get_node("World").add_entity(tower, event.position)
-		

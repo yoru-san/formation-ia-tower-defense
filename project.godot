@@ -9,18 +9,30 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Object",
+"class": "DijkstraMap",
+"language": "GDScript",
+"path": "res://DijkstraMap.gd"
+}, {
+"base": "Object",
+"class": "PriorityQueue",
+"language": "GDScript",
+"path": "res://PriorityQueue.gd"
+}, {
 "base": "Area2D",
 "class": "TileMapEntity",
 "language": "GDScript",
-"path": "res://entities/TileMapEntity.gd"
+"path": "res://TileMapEntity.gd"
 } ]
 _global_script_class_icons={
+"DijkstraMap": "",
+"PriorityQueue": "",
 "TileMapEntity": ""
 }
 
 [application]
 
-config/name="Formation-test"
+config/name="Formation-IA-Sebastien-Boutin"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 

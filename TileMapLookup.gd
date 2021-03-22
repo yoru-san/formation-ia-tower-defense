@@ -11,7 +11,6 @@ func _ready():
 
 func get_group(pos):
 	var coords = get_cell_autotile_coord(pos.x, pos.y)
-	print_debug(coords)
 	for key in tile_groups:
 		for v in tile_groups[key]:
 			if v == coords:
