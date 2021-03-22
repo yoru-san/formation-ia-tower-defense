@@ -6,13 +6,13 @@ var entities = []
 var tile_map
 var dijkstra = {}
 var graphs = {}
+var entity_lookups = {}
 
 func _ready():
 	for x in range(width):
 		entities.append([])
 		entities[x].resize(height)
 	tile_map = get_node("TileMap")
-	dijkstra['distance_to_base'] = DijkstraMap.new()
 	graphs['cost'] = []
 	for x in range(width):
 		graphs['cost'].append([])
@@ -43,15 +43,22 @@ func add_entity(entity, pos):
 		for x in range(tilemap_entity.width):
 			for y in range(tilemap_entity.height):
 				entity_positions.append(Vector2(tile_pos.x + x, tile_pos.y + y))
+		if tilemap_entity.tag:
+			if !entity_lookups.has(tilemap_entity.tag): entity_lookups[tilemap_entity.tag] = []
+			if !dijkstra.has('distance_to_%s' % tilemap_entity.tag): dijkstra['distance_to_%s' % tilemap_entity.tag] = DijkstraMap.new()
+		
 	else: entity_positions.append(tile_pos)
 	for pos in entity_positions:
 		entities[pos.x][pos.y] = entity
 		graphs['cost'][pos.x][pos.y] = null
+		if tilemap_entity && tilemap_entity.tag:
+			entity_lookups[tilemap_entity.tag].append(pos)
 
-	if (tilemap_entity && tilemap_entity.tag == 'base'):
-		dijkstra['distance_to_base'].calculate(entity_positions, graphs['cost'])
+	if tilemap_entity && tilemap_entity.tag:
+		dijkstra['distance_to_%s' % tilemap_entity.tag].calculate(entity_lookups[tilemap_entity.tag], graphs['cost'])
+		get_node("../DebugDrawing").dijkstra(dijkstra['distance_to_%s' % tilemap_entity.tag], tile_map.cell_size)
 	
 	entity.position = Vector2(tile_pos.x * tile_map.cell_size.x, tile_pos.y * tile_map.cell_size.y)
 	entity.z_index = tile_pos.y
-	get_node("../DebugDrawing").dijkstra(dijkstra['distance_to_base'], tile_map.cell_size)
+
 	
