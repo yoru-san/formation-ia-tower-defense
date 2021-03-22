@@ -12,17 +12,17 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "DijkstraMap",
 "language": "GDScript",
-"path": "res://DijkstraMap.gd"
+"path": "res://scripts/DijkstraMap.gd"
 }, {
 "base": "Object",
 "class": "PriorityQueue",
 "language": "GDScript",
-"path": "res://PriorityQueue.gd"
+"path": "res://scripts/PriorityQueue.gd"
 }, {
 "base": "Area2D",
 "class": "TileMapEntity",
 "language": "GDScript",
-"path": "res://TileMapEntity.gd"
+"path": "res://scripts/TileMapEntity.gd"
 } ]
 _global_script_class_icons={
 "DijkstraMap": "",
@@ -42,6 +42,14 @@ window/size/width=1280
 window/size/height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[input]
+
+toggle_debug={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 

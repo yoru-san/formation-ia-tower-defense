@@ -4,6 +4,7 @@ class_name DijkstraMap
 var frontier = PriorityQueue.new()
 var score = []
 var max_cost = 0
+var neighbours = [Vector2(1, 0), Vector2(0, 1), Vector2(0, -1), Vector2(-1, 0)]
 
 func handle_neighbour(current, neighbour, cost):
 	if neighbour.x < 0 || neighbour.x >= cost.size() || neighbour.y < 0 || neighbour.y >= cost[neighbour.x].size(): return
@@ -27,8 +28,20 @@ func calculate(destinations, cost):
 
 	while !(frontier.empty()):
 		var current = frontier.get_next()
-		handle_neighbour(current, Vector2(current.x + 1, current.y), cost)
-		handle_neighbour(current, Vector2(current.x, current.y + 1), cost)
-		handle_neighbour(current, Vector2(current.x - 1, current.y), cost)
-		handle_neighbour(current, Vector2(current.x, current.y - 1), cost)
-		
+		for neighbour in neighbours:
+			handle_neighbour(current, current + neighbour, cost)
+	
+	
+func get_next(pos):
+	var lowest_neighbour = Vector2(pos.x, pos.y)
+	var lowest_score = score[lowest_neighbour.x][lowest_neighbour.y]
+	for neighbour in neighbours:
+		var neighbour_pos = pos + neighbour
+		if neighbour_pos.x < 0 || neighbour_pos.x >= score.size() || neighbour_pos.y < 0 || neighbour_pos.y >= score[neighbour_pos.x].size(): continue
+		var neighbour_score = score[neighbour_pos.x][neighbour_pos.y]
+		if neighbour_score != null && neighbour_score < lowest_score:
+			lowest_score = neighbour_score
+			lowest_neighbour = pos + neighbour
+	return lowest_neighbour
+	
+	
