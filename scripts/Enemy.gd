@@ -1,13 +1,18 @@
 extends Area2D
+class_name Enemy
 
-var last_move = 0
+export (float) var speed
+var destination
 
 func _process(delta):
-	var time = OS.get_ticks_msec()
-	if time - last_move >= 1000:
-		last_move = time
-		var world = get_node("..")
-		if world.dijkstra.has("distance_to_base"):
+	var world = get_node("..")
+	if world.dijkstra.has("distance_to_base"):
+		var distance = 0
+		if destination:
+			distance = position.distance_to(destination)
+		var move_amount = delta * speed
+		if (distance < move_amount):
 			var tile_map = world.tile_map
 			var tile_pos = tile_map.world_to_map(position)
-			position = tile_map.map_to_world(world.dijkstra["distance_to_base"].get_next(tile_pos))
+			destination = tile_map.map_to_world(world.dijkstra["distance_to_base"].get_next(tile_pos))
+		position = position.move_toward(destination, move_amount)
