@@ -4,7 +4,6 @@ class_name Shooter
 export (float) var attack_range = 200
 export (float) var attack_speed = 1
 export (PackedScene) var projectile
-var timer
 var target
 var parent
 
@@ -16,7 +15,7 @@ func _ready():
 	shape.radius = attack_range
 	collision_shape.set_shape(shape)
 	add_child(collision_shape)
-	timer = Timer.new()
+	var timer = Timer.new()
 	add_child(timer)
 	timer.start(1 / attack_speed)
 	timer.connect("timeout", self, "shoot")
