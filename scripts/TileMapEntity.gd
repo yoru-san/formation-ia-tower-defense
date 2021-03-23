@@ -21,4 +21,4 @@ func _ready():
 func take_damage(amount):
 	hitpoints -= amount
 	if (hitpoints <= 0):
-		queue_free()
+		get_node("..").remove_entity(self)
