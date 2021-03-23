@@ -1,6 +1,32 @@
 extends Node2D
 
 var rects = []
+var current
+var world
+
+func _ready():
+	world = get_node("../World")
+	world.connect("on_change", self, "on_change")
+
+func cycle():
+	var keys = world.dijkstra.keys()
+	if !keys.size():
+		visible = false
+		return
+	var index = -1
+	if current: index = keys.find(current)
+	index += 1
+	if index >= keys.size():
+		current = null
+		visible = false
+		return
+	visible = true
+	current = keys[index]
+	dijkstra(world.dijkstra[current], world.get_node("TileMap").cell_size)
+	
+func on_change():
+	if current && world.dijkstra.has(current):
+		dijkstra(world.dijkstra[current], world.get_node("TileMap").cell_size)
 
 func dijkstra(map, tile_size):
 	rects.clear()

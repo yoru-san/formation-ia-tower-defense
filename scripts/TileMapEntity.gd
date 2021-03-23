@@ -10,7 +10,7 @@ export (String) var tag
 func _ready():
 	var collision_shape = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	var tile_map = get_node("TileMap")
+	var tile_map = get_node("../TileMap")
 	var pixel_width = width * tile_map.cell_size.x
 	var pixel_height = height * tile_map.cell_size.y
 	shape.extents = Vector2(pixel_width / 2, pixel_height / 2)

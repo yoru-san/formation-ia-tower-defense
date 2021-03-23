@@ -5,6 +5,12 @@ var frontier = PriorityQueue.new()
 var score = []
 var max_cost = 0
 var neighbours = [Vector2(1, 0), Vector2(0, 1), Vector2(0, -1), Vector2(-1, 0)]
+var destinations
+var cost
+
+func _init(destinations, cost):
+	self.destinations = destinations
+	self.cost = cost
 
 func handle_neighbour(current, neighbour, cost):
 	if neighbour.x < 0 || neighbour.x >= cost.size() || neighbour.y < 0 || neighbour.y >= cost[neighbour.x].size(): return
@@ -15,7 +21,7 @@ func handle_neighbour(current, neighbour, cost):
 		frontier.insert(neighbour, new_cost)
 		max_cost = max(max_cost, new_cost)
 		
-func calculate(destinations, cost):
+func calculate():
 	frontier.clear()
 	score.clear()
 	max_cost = 0
@@ -30,6 +36,10 @@ func calculate(destinations, cost):
 		var current = frontier.get_next()
 		for neighbour in neighbours:
 			handle_neighbour(current, current + neighbour, cost)
+			
+	# comme les destinations sont souvent des bâtiments, on vérifie après avoir calculé les scores si on peut traverser ces cases ou pas
+	for pos in destinations:
+		if cost[pos.x][pos.y] == null: score[pos.x][pos.y] = null
 	
 	
 func get_next(pos):

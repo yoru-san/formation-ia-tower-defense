@@ -12,12 +12,15 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
-Tower = ExtResource( 3 )
+tower = ExtResource( 3 )
 
 [node name="World" type="Node2D" parent="."]
 script = ExtResource( 4 )
 width = 44
 height = 25
+movement_costs = {
+"grass": 2.0
+}
 
 [node name="TileMap" type="TileMap" parent="World"]
 tile_set = ExtResource( 5 )
