@@ -25,6 +25,16 @@ _global_script_classes=[ {
 "path": "res://scripts/PriorityQueue.gd"
 }, {
 "base": "Area2D",
+"class": "Shooter",
+"language": "GDScript",
+"path": "res://scripts/Shooter.gd"
+}, {
+"base": "Node2D",
+"class": "Spawner",
+"language": "GDScript",
+"path": "res://scripts/Spawner.gd"
+}, {
+"base": "Area2D",
 "class": "TileMapEntity",
 "language": "GDScript",
 "path": "res://scripts/TileMapEntity.gd"
@@ -33,6 +43,8 @@ _global_script_class_icons={
 "DijkstraMap": "",
 "Enemy": "",
 "PriorityQueue": "",
+"Shooter": "",
+"Spawner": "",
 "TileMapEntity": ""
 }
 
@@ -56,6 +68,12 @@ toggle_debug={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_2="towers"
+2d_physics/layer_3="enemies"
+2d_physics/layer_4="base"
 
 [rendering]
 

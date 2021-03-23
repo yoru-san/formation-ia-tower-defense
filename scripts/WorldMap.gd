@@ -34,7 +34,7 @@ func add_entity(entity, pos):
 	if group == 'road' || group == 'water' || group == 'tree': return
 	
 	if !group:
-		print_debug(tile_map.get_cell_autotile_coord(tile_pos.x, tile_pos.y))
+		print_debug("tile %s has no group" % tile_map.get_cell_autotile_coord(tile_pos.x, tile_pos.y))
 	
 	add_child(entity)
 	var entity_positions = []

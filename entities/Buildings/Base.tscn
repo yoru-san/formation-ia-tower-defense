@@ -4,9 +4,12 @@
 [ext_resource path="res://scripts/TileMapEntity.gd" type="Script" id=2]
 
 [node name="Base" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
 script = ExtResource( 2 )
 width = 8
 height = 8
+hitpoints = 100.0
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

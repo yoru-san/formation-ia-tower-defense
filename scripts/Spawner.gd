@@ -1,4 +1,5 @@
 extends Node2D
+class_name Spawner
 
 export var enemies = []
 var rng = RandomNumberGenerator.new()
