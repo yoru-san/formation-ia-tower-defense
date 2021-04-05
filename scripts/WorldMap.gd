@@ -86,7 +86,9 @@ func add_entity(entity, pos):
 		dijkstra[map].calculate()
 	
 	# ajouter l'entité dans la hierarchie et la positionner correctement
-	add_child(entity)
+	var parent = entity.get_node("..")
+	if parent != self:
+		add_child(entity)
 	entity.position = Vector2(tile_pos.x * tile_map.cell_size.x, tile_pos.y * tile_map.cell_size.y)
 	entity.z_index = tile_pos.y
 	emit_signal("on_change")

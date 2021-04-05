@@ -9,6 +9,9 @@ var parent
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if attack_speed == 0:
+		print_debug("attack speed 0!")
+		return
 	parent = get_node("..")
 	var collision_shape = CollisionShape2D.new()
 	var shape = CircleShape2D.new()
