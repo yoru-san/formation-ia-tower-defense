@@ -9,7 +9,8 @@ func _ready():
 	for index in range(main.towers.size()):
 		var button = get_node(building_item).duplicate()
 		add_child(button)
-		button.text = main.towers[index].name
+		button.get_node("VBoxContainer/Label").text = main.towers[index].name
+		button.get_node("VBoxContainer/HBoxContainer/Label").text = String(main.towers[index].cost)
 		button.connect("pressed", self, "_on_button", [index])
 	get_node(building_item).queue_free()
 		

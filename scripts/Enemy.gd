@@ -4,6 +4,7 @@ class_name Enemy
 export (float) var speed = 1
 export (float) var hitpoints = 20
 export (String) var dijkstra
+export (int) var reward = 30
 var destination
 var world
 
@@ -28,6 +29,9 @@ func take_damage(amount):
 	hitpoints -= amount
 	if (hitpoints <= 0):
 		queue_free()
+		var main = get_node("/root/Main")
+		# on donne la récompense au joueur pour avoir tué un ennemi
+		main.money += reward
 		
 func _exit_tree():
 	world.remove_enemy(self)

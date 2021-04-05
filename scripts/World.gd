@@ -2,6 +2,7 @@ extends Node2D
 
 export (int) var width = 64
 export (int) var height = 64
+export (int) var starting_money = 200
 export var movement_costs = {}
 var entities = []
 var tile_map
@@ -139,13 +140,14 @@ func add_enemy(enemy):
 	
 func remove_enemy(enemy):
 	enemies.erase(enemy)
+	var main = get_node("/root/Main")
 	# s'il n'y a plus d'ennemis, et que tous les spawners ont
 	# terminé toutes leurs vagues, on a gagné
 	if enemies.size(): return
 	for spawner in spawners:
 		if spawner.wave_index < spawner.waves.size(): return
 	print_debug("Victory!")
-	get_node("/root/Main").state = "victorious"
+	main.state = "victorious"
 
 func _on_defeat():
 	if !is_inside_tree(): return

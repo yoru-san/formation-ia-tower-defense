@@ -30,5 +30,5 @@ collision_layer = 0
 collision_mask = 10
 script = ExtResource( 4 )
 attack_range = 150.0
-attack_speed = 2.0
+attack_speed = 3.0
 projectile = ExtResource( 3 )

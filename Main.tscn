@@ -1,19 +1,23 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://maps/Level1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://entities/Buildings/Missile Tower.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/Buildings/Gun Tower.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/BuildingUI.gd" type="Script" id=5]
+[ext_resource path="res://sprites/barrel.tres" type="Texture" id=6]
+[ext_resource path="res://scripts/MoneyUI.gd" type="Script" id=7]
 [ext_resource path="res://scripts/DebugDrawing.gd" type="Script" id=8]
 [ext_resource path="res://scripts/UI.gd" type="Script" id=11]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
 towers = [ {
+"cost": 50,
 "name": "Mitrailleuse",
 "scene": ExtResource( 4 )
 }, {
+"cost": 80,
 "name": "Tourelle à Missile",
 "scene": ExtResource( 3 )
 } ]
@@ -25,6 +29,99 @@ script = ExtResource( 8 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 11 )
+
+[node name="Buildings" type="HBoxContainer" parent="UI"]
+margin_right = 1131.0
+margin_bottom = 58.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 20
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+building_item = NodePath("Building")
+
+[node name="Building" type="Button" parent="UI/Buildings"]
+margin_right = 1131.0
+margin_bottom = 58.0
+grow_horizontal = 2
+size_flags_horizontal = 15
+size_flags_vertical = 3
+custom_constants/hseparation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Buildings/Building"]
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/Buildings/Building/VBoxContainer"]
+margin_right = 109.0
+margin_bottom = 14.0
+text = "Example building"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Buildings/Building/VBoxContainer"]
+margin_top = 18.0
+margin_right = 109.0
+margin_bottom = 46.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UI/Buildings/Building/VBoxContainer/HBoxContainer"]
+margin_right = 25.0
+margin_bottom = 28.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/Buildings/Building/VBoxContainer/HBoxContainer"]
+margin_left = 29.0
+margin_top = 7.0
+margin_right = 53.0
+margin_bottom = 21.0
+text = "999"
+
+[node name="Money" type="Panel" parent="UI"]
+anchor_left = 0.9
+anchor_right = 1.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/Money"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -40.0
+margin_top = -7.0
+margin_bottom = 7.0
+text = "999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UI/Money"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 9.0
+margin_top = -14.0
+margin_right = 25.0
+margin_bottom = 14.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Defeat" type="Panel" parent="UI"]
 visible = false
@@ -105,19 +202,5 @@ text = "Recommencer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Buildings" type="HBoxContainer" parent="UI"]
-margin_right = 121.0
-margin_bottom = -20.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-building_item = NodePath("Building")
-
-[node name="Building" type="Button" parent="UI/Buildings"]
-margin_right = 121.0
-margin_bottom = 20.0
-text = "Example building"
 [connection signal="button_up" from="UI/Defeat/VBoxContainer/Button" to="UI" method="on_restart"]
 [connection signal="button_up" from="UI/Victory/VBoxContainer/Button" to="UI" method="on_restart"]
