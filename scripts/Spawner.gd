@@ -22,7 +22,8 @@ func _ready():
 	add_child(spawn_timer)
 	_start_wave()
 	world = get_node("..")
-	world.connect("state_change", self, "_on_world_state")
+	world.spawners.append(self)
+	get_node("/root/Main").connect("state_change", self, "_on_game_state")
 	
 func _start_wave():
 	spawn_timer.stop()
@@ -38,8 +39,7 @@ func _on_wave_timer():
 	
 func _on_spawn_timer():
 	var enemy = waves[wave_index].enemies[spawn_index].instance()
-	world.add_child(enemy)
-	enemy.world = world
+	world.add_enemy(enemy)
 	enemy.position = position
 	enemy.z_index = position.y
 	spawn_index += 1
@@ -48,7 +48,7 @@ func _on_spawn_timer():
 		wave_index += 1
 		_start_wave()
 		
-func _on_world_state(state):
+func _on_game_state(state):
 	if state != "playing":
 		wave_timer.stop()
 		spawn_timer.stop()

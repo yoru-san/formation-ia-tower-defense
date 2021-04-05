@@ -12,7 +12,7 @@ func _process(delta):
 		print_debug("no dijkstra map assigned!")
 		return
 	z_index = position.y
-	if world.state != "playing": return
+	if get_node("/root/Main").state != "playing": return
 	if world.dijkstra.has(dijkstra):
 		var distance = 0
 		if destination:
@@ -28,3 +28,6 @@ func take_damage(amount):
 	hitpoints -= amount
 	if (hitpoints <= 0):
 		queue_free()
+		
+func _exit_tree():
+	world.remove_enemy(self)

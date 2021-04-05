@@ -8,14 +8,10 @@ var tile_map
 var dijkstra = {}
 var graphs = {}
 var entity_lookups = {}
-var state = "playing" setget state_set
+var spawners = []
+var enemies = []
 
 signal on_change
-signal state_change(state)
-
-func state_set(new_value):
-	state = new_value
-	emit_signal("state_change", state)
 
 # retourner le coût de déplacement d'une case
 func get_cost(pos):
@@ -47,12 +43,14 @@ func _ready():
 		
 	# il faut ajouter la base aux entités gérées par ce script	
 	var base = get_node("Base")
-	base.connect("tree_exited", self, "_on_defeat")
 	add_entity(base, base.position)
+	
+	# on veut déclencher la défaite si la base est détruite
+	base.connect("tree_exited", self, "_on_defeat")
 	
 # ajouter une entité aux systèmes "world"	
 func add_entity(entity, pos):
-	if state != "playing": return
+	if get_node("/root/Main").state != "playing": return
 	# il faut traduire la position en coordonnées grille  
 	var tile_pos = tile_map.world_to_map(pos)
 	# si la position est en dehors de la grille, on ne peut rien faire
@@ -93,17 +91,16 @@ func add_entity(entity, pos):
 		dijkstra[map].calculate()
 	
 	# ajouter l'entité dans la hierarchie et la positionner correctement
-	var parent = entity.get_node("..")
+	var parent = entity.get_node_or_null("..")
 	if parent != self:
 		add_child(entity)
-	entity.world = self
 	entity.position = Vector2(tile_pos.x * tile_map.cell_size.x, tile_pos.y * tile_map.cell_size.y)
 	entity.z_index = tile_pos.y
 	emit_signal("on_change")
 	
 # enlever une entité des systèmes "world"
 func remove_entity(entity):
-	if state != "playing": return
+	if get_node("/root/Main").state != "playing": return
 	# convertir la position de l'entité en position sur la grille
 	var tile_pos = tile_map.world_to_map(entity.position)
 	# si la position est en dehors de la grille on ne peut rien faire
@@ -134,7 +131,23 @@ func remove_entity(entity):
 	# enlever l'entité de la hierarchie
 	entity.queue_free()
 	emit_signal("on_change")
+	
+func add_enemy(enemy):
+	enemies.append(enemy)
+	add_child(enemy)
+	enemy.world = self
+	
+func remove_enemy(enemy):
+	enemies.erase(enemy)
+	# s'il n'y a plus d'ennemis, et que tous les spawners ont
+	# terminé toutes leurs vagues, on a gagné
+	if enemies.size(): return
+	for spawner in spawners:
+		if spawner.wave_index < spawner.waves.size(): return
+	print_debug("Victory!")
+	get_node("/root/Main").state = "victorious"
 
 func _on_defeat():
+	if !is_inside_tree(): return
 	print_debug("Defeat!")
-	state = "defeated"
+	get_node("/root/Main").state = "defeated"

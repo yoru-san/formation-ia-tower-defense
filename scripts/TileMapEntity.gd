@@ -6,7 +6,6 @@ export (int) var width = 1
 export (int) var height = 1
 export (float) var hitpoints = 50
 export (String) var tag
-var world
 
 func _ready():
 	var collision_shape = CollisionShape2D.new()

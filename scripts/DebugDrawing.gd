@@ -5,10 +5,14 @@ var current
 var world
 
 func _ready():
-	world = get_node("../World")
+	get_node("/root/Main").connect("scene_change", self, "_on_scene_change")
+	
+func _on_scene_change(scene):
+	world = scene
 	world.connect("on_change", self, "on_change")
 
 func cycle():
+	if !world: return
 	var keys = world.dijkstra.keys()
 	if !keys.size():
 		visible = false
