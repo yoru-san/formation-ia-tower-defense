@@ -24,6 +24,7 @@ func _ready():
 	timer.connect("timeout", self, "shoot")
 
 func shoot():	
+	if parent.world.state != "playing": return
 	if target && !overlaps_area(target):
 		target = null
 	if !target:
@@ -33,7 +34,8 @@ func shoot():
 			break
 	if target:
 		var bullet = projectile.instance()
-		parent.get_node("..").add_child(bullet)
+		parent.world.add_child(bullet)
+		bullet.world = parent.world
 		bullet.collision_layer = 0
 		bullet.collision_mask = collision_mask
 		bullet.position = parent.position

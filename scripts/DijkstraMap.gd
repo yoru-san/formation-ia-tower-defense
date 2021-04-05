@@ -1,4 +1,4 @@
-extends Object
+extends Reference
 class_name DijkstraMap
 
 # les positions relatives à la case actuelle qu'on va explorer. On pourrait ajouter les diagonales ici.

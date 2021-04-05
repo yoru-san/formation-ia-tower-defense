@@ -5,13 +5,14 @@ export (float) var speed = 1
 export (float) var hitpoints = 20
 export (String) var dijkstra
 var destination
+var world
 
 func _process(delta):
 	if !dijkstra:
 		print_debug("no dijkstra map assigned!")
 		return
 	z_index = position.y
-	var world = get_node("..")
+	if world.state != "playing": return
 	if world.dijkstra.has(dijkstra):
 		var distance = 0
 		if destination:

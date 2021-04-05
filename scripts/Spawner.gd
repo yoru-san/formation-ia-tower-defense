@@ -1,20 +1,56 @@
 extends Node2D
 class_name Spawner
 
-export var enemies = []
+export var waves = []
 export (float) var interval = 5
-var rng = RandomNumberGenerator.new()
+var wave_index = 0
+var spawn_index = 0
+var wave_timer: Timer
+var spawn_timer: Timer
+var world: Node
 
 func _ready():
-	rng.randomize()
-	var timer = Timer.new()
-	add_child(timer)
-	timer.start(interval)
-	timer.connect("timeout", self, "_on_timer")
-
-func _on_timer():
-	if !enemies.size(): return
-	var enemy = enemies[rng.randi_range(0, enemies.size() - 1)].instance()
-	get_node("..").add_child(enemy)
+	if !waves.size():
+		print_debug("Spawner has no waves!")
+		return
+	wave_timer = Timer.new()
+	wave_timer.one_shot = true
+	wave_timer.connect("timeout", self, "_on_wave_timer")
+	add_child(wave_timer)
+	spawn_timer = Timer.new()
+	spawn_timer.connect("timeout", self, "_on_spawn_timer")
+	add_child(spawn_timer)
+	_start_wave()
+	world = get_node("..")
+	world.connect("state_change", self, "_on_world_state")
+	
+func _start_wave():
+	spawn_timer.stop()
+	if wave_index >= waves.size():
+		print_debug("All waves sent")
+		return
+	wave_timer.start(waves[wave_index].wait)
+	print_debug("Wave %s starting in %s seconds" % [wave_index + 1, waves[wave_index].wait])
+	
+func _on_wave_timer():
+	spawn_timer.start(interval)
+	print_debug("Wave %s!" % (wave_index + 1))
+	
+func _on_spawn_timer():
+	var enemy = waves[wave_index].enemies[spawn_index].instance()
+	world.add_child(enemy)
+	enemy.world = world
 	enemy.position = position
 	enemy.z_index = position.y
+	spawn_index += 1
+	if spawn_index >= waves[wave_index].enemies.size():
+		spawn_index = 0
+		wave_index += 1
+		_start_wave()
+		
+func _on_world_state(state):
+	if state != "playing":
+		wave_timer.stop()
+		spawn_timer.stop()
+	
+

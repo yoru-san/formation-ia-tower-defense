@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Object",
+"base": "Reference",
 "class": "DijkstraMap",
 "language": "GDScript",
 "path": "res://scripts/DijkstraMap.gd"
@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/Enemy.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "PriorityQueue",
 "language": "GDScript",
 "path": "res://scripts/PriorityQueue.gd"

@@ -1,6 +1,6 @@
 # une implémentation simple d'une "priority queue", c'est à dire une liste où les éléments sont triés par priorité.
 
-extends Object
+extends Reference
 class_name PriorityQueue
 
 var values = []

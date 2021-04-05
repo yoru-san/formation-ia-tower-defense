@@ -8,8 +8,14 @@ var tile_map
 var dijkstra = {}
 var graphs = {}
 var entity_lookups = {}
+var state = "playing" setget state_set
 
 signal on_change
+signal state_change(state)
+
+func state_set(new_value):
+	state = new_value
+	emit_signal("state_change", state)
 
 # retourner le coût de déplacement d'une case
 func get_cost(pos):
@@ -41,11 +47,12 @@ func _ready():
 		
 	# il faut ajouter la base aux entités gérées par ce script	
 	var base = get_node("Base")
+	base.connect("tree_exited", self, "_on_defeat")
 	add_entity(base, base.position)
 	
 # ajouter une entité aux systèmes "world"	
 func add_entity(entity, pos):
-	
+	if state != "playing": return
 	# il faut traduire la position en coordonnées grille  
 	var tile_pos = tile_map.world_to_map(pos)
 	# si la position est en dehors de la grille, on ne peut rien faire
@@ -89,12 +96,14 @@ func add_entity(entity, pos):
 	var parent = entity.get_node("..")
 	if parent != self:
 		add_child(entity)
+	entity.world = self
 	entity.position = Vector2(tile_pos.x * tile_map.cell_size.x, tile_pos.y * tile_map.cell_size.y)
 	entity.z_index = tile_pos.y
 	emit_signal("on_change")
 	
 # enlever une entité des systèmes "world"
 func remove_entity(entity):
+	if state != "playing": return
 	# convertir la position de l'entité en position sur la grille
 	var tile_pos = tile_map.world_to_map(entity.position)
 	# si la position est en dehors de la grille on ne peut rien faire
@@ -126,4 +135,6 @@ func remove_entity(entity):
 	entity.queue_free()
 	emit_signal("on_change")
 
-	
+func _on_defeat():
+	print_debug("Defeat!")
+	state = "defeated"

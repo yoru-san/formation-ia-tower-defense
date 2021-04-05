@@ -29,5 +29,4 @@ shape = SubResource( 1 )
 collision_layer = 0
 collision_mask = 10
 script = ExtResource( 4 )
-attack_speed = 4.0
 projectile = ExtResource( 3 )

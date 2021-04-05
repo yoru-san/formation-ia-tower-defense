@@ -5,6 +5,7 @@ export (float) var speed = 10
 export (float) var duration = 4
 var timer
 var velocity
+var world
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,6 +25,7 @@ func _on_hit(other):
 		queue_free()
 
 func _process(delta):
+	if world.state != "playing": return
 	z_index = position.y
 	if velocity:
 		position += velocity * delta
