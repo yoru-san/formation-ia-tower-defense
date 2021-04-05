@@ -1,14 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://maps/Level1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://entities/Buildings/Missile Tower.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/Buildings/Gun Tower.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/BuildingUI.gd" type="Script" id=5]
 [ext_resource path="res://scripts/DebugDrawing.gd" type="Script" id=8]
 [ext_resource path="res://scripts/UI.gd" type="Script" id=11]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
-tower = ExtResource( 3 )
+towers = [ {
+"name": "Mitrailleuse",
+"scene": ExtResource( 4 )
+}, {
+"name": "Tourelle à Missile",
+"scene": ExtResource( 3 )
+} ]
 map = ExtResource( 1 )
 
 [node name="DebugDrawing" type="Node2D" parent="."]
@@ -97,5 +105,19 @@ text = "Recommencer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Buildings" type="HBoxContainer" parent="UI"]
+margin_right = 121.0
+margin_bottom = -20.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+building_item = NodePath("Building")
+
+[node name="Building" type="Button" parent="UI/Buildings"]
+margin_right = 121.0
+margin_bottom = 20.0
+text = "Example building"
 [connection signal="button_up" from="UI/Defeat/VBoxContainer/Button" to="UI" method="on_restart"]
 [connection signal="button_up" from="UI/Victory/VBoxContainer/Button" to="UI" method="on_restart"]
