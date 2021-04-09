@@ -16,6 +16,7 @@ movement_costs = {
 "grass": 2.0,
 "road": 1.0
 }
+tower_cost = 20.0
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
@@ -38,7 +39,7 @@ tag = "base"
 position = Vector2( 116, 696 )
 script = ExtResource( 6 )
 waves = [ {
-"enemies": [ ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ) ],
+"enemies": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ) ],
 "wait": 10.0
 }, {
 "enemies": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ) ],
